@@ -46,6 +46,11 @@ public class Vector extends JFrame implements KeyListener {
     private Color fillBody;
     private Color fillFace;
 
+    private boolean animacionEnProgreso = false;
+    private long tiempoInicioAnimacion;
+    private long duracionAnimacion = 5000;  // Duración en milisegundos (5 segundos)
+
+
     // Definir los vértices de la cara en 3D
     private int[][] verticesCabeza = {
             {150, 400, 150},
@@ -181,6 +186,14 @@ public class Vector extends JFrame implements KeyListener {
         timer.start();
     }
 
+    public void iniciarAnimacion() {
+        animacionEnProgreso = true;
+        tiempoInicioAnimacion = System.currentTimeMillis();
+        // Puedes ajustar la posición inicial en el eje Y según sea necesario
+        yCabeza = 0;
+    }
+    
+
     // Método para clonar y trasladar las coordenadas
     private int[][] cloneAndTranslate(int[][] original, int translateX, int translateY, int translateZ) {
         int[][] result = new int[original.length][original[0].length];
@@ -239,11 +252,6 @@ public class Vector extends JFrame implements KeyListener {
         for (int i = 0; i < vertices.length; i++) {
             int[] resultadoRotacion = vertices[i];
     
-            // Aplicar la traslación antes de la rotación
-            resultadoRotacion[0] += xCabeza;
-            resultadoRotacion[1] += yCabeza;
-            resultadoRotacion[2] += zCabeza;
-    
             // Aplicar la transformación utilizando la matriz
             for (int j = 0; j < 3; j++) {
                 double suma = 0;
@@ -252,6 +260,13 @@ public class Vector extends JFrame implements KeyListener {
                 }
                 verticesTransformados[i][j] = (int) suma;
             }
+        }
+    
+        // Aplicar la traslación después de la rotación
+        for (int i = 0; i < verticesTransformados.length; i++) {
+            verticesTransformados[i][0] += xCabeza;
+            verticesTransformados[i][1] += yCabeza;
+            verticesTransformados[i][2] += zCabeza;
         }
     
         return verticesTransformados;
@@ -605,9 +620,6 @@ public class Vector extends JFrame implements KeyListener {
             anguloX = 0;
             anguloY = 0;
             anguloZ = 0;
-            xCabeza = 0;
-            yCabeza = 0;
-            zCabeza = 0;
             rotarX = false;
             rotarY = false;
             rotarZ = false;
@@ -712,14 +724,15 @@ public class Vector extends JFrame implements KeyListener {
         vector.backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
 
         vector.setVisible(true);
+        vector.iniciarAnimacion();
         
         int contador = 0;
-        vector.yCabeza --;
-        while (contador < 21) {
+        while (contador < 701) {
             
-            vector.pause(990);
+            vector.yCabeza -= 1;
+            vector.pause(29);
 
-            if(contador == 20) {
+            if(contador == 700) {
                 vector.tutututuTUN();
                 vector.tutututuTUN();
             }
@@ -758,14 +771,7 @@ public class Vector extends JFrame implements KeyListener {
         vector.tutututuTUN();
         vector.restartValues();
 
-        contador = 0;
-        vector.yCabeza ++;
-        while (contador < 4) {
-            
-            vector.pause(100);
-            contador++;
-        }
-
+        vector.pause(400);
         vector.restartValues();
 
         vector.rotarX = true;
@@ -789,18 +795,28 @@ public class Vector extends JFrame implements KeyListener {
         vector.rotarY = true;
         vector.directionY = 1;
 
-        vector.pause(8500);
+        vector.pause(9000);
 
         vector.rotarX = false;
         vector.rotarY = false;
         vector.rotarZ = false;
         vector.drawPoligon3D();
 
-        vector.zCabeza -= 1;
-        vector.pause(1000);
+        vector.zCabeza -= 5;
+        vector.pause(500);
         vector.TU_TU_TU_TU(6);
-        vector.pause(100);
-        vector.TU_TU_TU_TU(6);
-        vector.tutututuTUN();
+
+        vector.xCabeza = 0;
+        vector.yCabeza = 0;
+        vector.zCabeza = 0;
+        vector.drawPoligon3D();
+
+        vector.rotarY = true;
+        vector.directionY = 1;
+
+        vector.pause(5000);
+
+        vector.rotarY = false;
+        vector.drawPoligon3D();
     }
 }
