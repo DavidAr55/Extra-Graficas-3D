@@ -798,9 +798,21 @@ public class Vector extends JFrame implements KeyListener {
 
         vector.zCabeza -= 1;
         vector.pause(1000);
+
         vector.TU_TU_TU_TU(6);
         vector.pause(100);
-        vector.TU_TU_TU_TU(6);
+        vector.TU_TU_TU_TU(5);
+
+        vector.pause(698);
+        vector.mostrarVertices = true;
+        vector.rellenarPoligono = false;
+        vector.mostrarVerticesUnidos = false;
+
+        vector.pause(698);
+        vector.mostrarVertices = false;
+        vector.rellenarPoligono = true;
+        vector.mostrarVerticesUnidos = false;
+
         vector.tutututuTUN();
     }
 }
